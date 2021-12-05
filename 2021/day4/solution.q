@@ -2,7 +2,6 @@
 // tdowney, Advent of Code 2021, problem 4 part 1,
 // Bingo player
 //
-/ findIndices:{[boards;num] cind:raze raze where''[num in'''boards[0]];rind:raze where each num in ''boards[0];bind:til count cind;(bind;rind;cind)}
 findIndices:{[boards;num] cind:raze raze where''[num in'''boards[0]];rind:raze where each b:num in''boards[0];bind:where any'[b];(bind;rind;cind)}
 markBoard:{[boards;bind;rind;cind] .[boards;(1;bind;rind;cind);:;1b]}
 markBoards:{[boards;bind;rind;cind] markBoard/[;bind;rind;cind]boards}
@@ -29,17 +28,13 @@ bingo:{[f]
 
 play:{[boards;num]
 	if[(::)~boards;:(::)]; / Stop if we're finished
-	/ show"Num: ",string[num];
 	$[count sum indices:findIndices[boards;num]; / Determine if and where the given number is on each board
 		[
 			`bind`rind`cind set'indices; / Set index variables
-			/ show"bind: ",(" "sv string bind)," | rind: ",(" "sv string bind)," | cind: ",(" "sv string bind);
 			boards:markBoards[boards;bind;rind;cind]; / Update boards with new state
 			$[any b:hasWon[boards]'[bind;rind;cind]; / Determine if anyone has won
 			[
 				`bind`rind`cind set'flip flip[(bind;rind;cind)]where b; / Filter bind,rind,cind by b
-				/ show boards[0;bind];
-				/ show boards[1;bind];
 				scores:calcScore[boards;;num]each bind; / Calc score based on that
 				displayScores[boards;;num;]'[bind;scores];
 				/ {[] show"Board ",string[1+bind]," wins with number: ",string[num], " and score: ",string[score]};
