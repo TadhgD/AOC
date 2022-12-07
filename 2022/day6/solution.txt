@@ -1,0 +1,1 @@
+f:{[f;n] f:first read0 f;i:til n;while[not n=count distinct f i;i+:1];n+first i}
