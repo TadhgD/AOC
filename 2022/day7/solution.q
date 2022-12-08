@@ -25,7 +25,6 @@
 //		.aoc.state.parent:`$last cmd]];
 //	}
 //
-
 proc:{[wd;cmds] $["cd"~cmds[0;2 3];cd[wd;first cmds];ls[wd;cmds]]}
 ls:{[wd;cmds] @[wd;`files;:;"J"$cmds[;0]where not "dir"~/:(cmds:1_ " "vs/:cmds)[;0]]}
 cd:{[wd;cmd] cmd:" "vs cmd;$[".."~last cmd;wd:` sv -1_` vs wd;[wd:` sv wd,`$last cmd;wd set (1#.q),enlist[`files]!enlist 0#0]]}
@@ -38,7 +37,7 @@ f:{[x]
 	sum value[sizes]where value 100000>sizes::d!sum each getTotalSize each d:getDirPaths ` sv `root,`$"/"
 	}
 
-g:{[t;m] first l where m<=l+t-last l:asc value sizes}
+g:{[t;m] first l where m<=l+t-last l:asc sizes}
 gargs:70000000 30000000
 
 // Usage
